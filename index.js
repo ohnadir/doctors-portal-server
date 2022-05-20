@@ -38,6 +38,13 @@ async function run() {
       res.send({success: true, result})
     })
 
+    // get bookings API 
+    app.get('/booking', async (req, res) => {
+      const query = {};
+      const cursor = bookingCollection.find(query);
+      const bookings = await cursor.toArray();
+      res.send(bookings);
+    })
     
   }
   finally {
