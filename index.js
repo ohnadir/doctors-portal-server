@@ -21,6 +21,7 @@ async function run() {
     await client.connect();
     const serviceCollection = client.db("doctors-portal").collection("service");
     const bookingCollection = client.db("doctors-portal").collection("booking");
+    const usersCollection = client.db("doctors-portal").collection("users");
 
     // get service API 
     app.get('/service', async (req, res) => {
@@ -44,6 +45,20 @@ async function run() {
       const bookings = await bookingCollection.find(query).toArray();
       res.send(bookings);
       
+    })
+
+    app.put('/user/:email', async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          plot : user
+        }
+      }
+      const result = await usersCollection.updateOne(filter, updatedDoc, options);
+      res.send(result);
     })
     
   }
