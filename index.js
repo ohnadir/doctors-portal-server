@@ -33,17 +33,17 @@ async function run() {
     // post a single item 
     app.post('/booking', async (req, res) => {
       const booking = req.body;
-      const query = {}
       const result = await bookingCollection.insertOne(booking)
-      res.send({success: true, result})
+      res.send({ success: true, result })
     })
 
     // get bookings API 
     app.get('/booking', async (req, res) => {
-      const query = {};
-      const cursor = bookingCollection.find(query);
-      const bookings = await cursor.toArray();
+      const patient = req.query.patient;
+      const query = {patient: patient};
+      const bookings = await bookingCollection.find(query).toArray();
       res.send(bookings);
+      
     })
     
   }
